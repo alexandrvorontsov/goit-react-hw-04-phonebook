@@ -4,15 +4,13 @@ import ContactList from '../ContactList/ContactList';
 import Filter from '../Filter/Filter';
 import { Phonebook } from './App.styled';
 
-import { nanoid } from 'nanoid';
-
 export default function App() {
   const LS_KEY = 'users';
   const [contacts, setContacts] = useState([]);
   const [filter, setFilter] = useState('');
 
   useEffect(() => {
-    const localTodo = localStorage.getItem(LS_KEY);
+    const localTodo = localStorage.getItem(LS_KEY || []);
     if (localTodo) setContacts(JSON.parse(localTodo));
 
     // const parsedContacts = JSON.parse(localStorage.getItem(LS_KEY)) || [];
@@ -27,6 +25,13 @@ export default function App() {
   const handleChange = evt => {
     const { value } = evt.currentTarget;
     setFilter(value);
+  };
+
+  const addContact = value => {
+    setContacts(prevTodoList => {
+      return [...prevTodoList, value];
+    });
+    console.log(value);
   };
 
   // const addContact = data => {
@@ -49,21 +54,21 @@ export default function App() {
     );
   };
 
-  const handleDelete = id => {
-    console.log(id);
-    setContacts(prevContacts => {
-      return prevContacts.filter(contacts => contacts.id !== id);
-
-      // return prevContacts.filter(contact => contact.id !== evt.target.id); тут что не то
-    });
+  const handleDelete = elementToRemove => {
+    setContacts(prevContacts =>
+      prevContacts.filter(contact => contact.id !== elementToRemove)
+    );
   };
 
-  const addContact = data => {
-    setContacts(prevTodoList => {
-      return [...prevTodoList, data];
-    });
-    console.log(data);
-  };
+  // const handleDelete = id => {
+  //   console.log(id, contact.id);
+  //   setContacts(prevContacts => {
+  //     return prevContacts.filter(contacts => contacts.id !== id);
+
+  //     // return prevContacts.filter(contact => contact.id !== evt.target.id);
+  //     //  тут что не то
+  //   });
+  // };
 
   return (
     <Phonebook>
@@ -114,13 +119,13 @@ export default function App() {
 //     );
 //   };
 
-//   handleDelete = evt => {
-//     const { contacts } = this.state;
-//     const elementToRemove = evt.currentTarget.parentNode.id;
-//     this.setState({
-//       contacts: contacts.filter(contact => contact.id !== elementToRemove),
-//     });
-//   };
+// handleDelete = evt => {
+//   const { contacts } = this.state;
+//   const elementToRemove = evt.currentTarget.parentNode.id;
+//   this.setState({
+//     contacts: contacts.filter(contact => contact.id !== elementToRemove),
+//   });
+// };
 
 //   componentDidMount() {
 //     const contacts = JSON.parse(localStorage.getItem(LS_KEY)) || [];

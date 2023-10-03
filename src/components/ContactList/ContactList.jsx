@@ -10,7 +10,7 @@ export default function ContactList({ getContacts, deleteContact }) {
             <ListItem key={id} id={id}>
               <span>{name}: </span>
               <span>{number}</span>
-              <ListButton type="button" onClick={() => deleteContact()}>
+              <ListButton type="button" onClick={() => deleteContact(id)}>
                 Delete
               </ListButton>
             </ListItem>
